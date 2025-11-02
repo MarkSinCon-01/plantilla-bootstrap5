@@ -1,422 +1,326 @@
-<!doctype html>
-<html lang="es" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Plantilla Bootstrap 5 – Multipropósito</title>
-  <meta name="description" content="Plantilla multipropósito con Bootstrap 5 lista para landing page, portafolio o sitio de negocio.">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marco Sinche — Portafolio</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --brand: #6f42c1; /* morado elegante */
-      --brand-2: #0d6efd; /* azul bootstrap */
+    :root{
+      --bg:#0f0f10;           /* negro suave */
+      --fg:#ffffff;           /* texto principal */
+      --muted:#9aa0a6;        /* texto secundario */
+      --accent:#18e2b5;       /* turquesa */
+      --accent-2:#ff2d2d;     /* rojo */
+      --card:#141417;         /* paneles */
     }
-    .btn-brand { background: var(--brand); border-color: var(--brand); }
-    .btn-brand:hover { background: #5c36a3; border-color: #5c36a3; }
-    .text-gradient {
-      background: linear-gradient(45deg, var(--brand), var(--brand-2));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .hero {
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(111,66,193,.15), transparent),
-                  radial-gradient(1200px 600px at 90% 10%, rgba(13,110,253,.1), transparent);
-    }
-    .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    .rounded-2xl { border-radius: 1rem; }
-    .section { padding: 5rem 0; }
-    .feature-icon { width: 56px; height:56px; display:grid; place-items:center; }
-    .portfolio img { object-fit: cover; height: 220px; }
-    .btn-back-to-top { position: fixed; right: 1rem; bottom: 1rem; display:none; z-index: 1030; }
-    /* Dark mode tweaks */
-    [data-bs-theme="dark"] .hero { background: radial-gradient(1200px 600px at 10% 10%, rgba(111,66,193,.25), transparent), radial-gradient(1200px 600px at 90% 10%, rgba(13,110,253,.2), transparent); }
+    html,body{background:#0b0c0d;color:var(--fg);font-family:Poppins, Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+    a{color:var(--fg);text-decoration:none}
+    a:hover{color:var(--accent)}
+    .btn-accent{background:var(--accent); color:#0a0a0a; border:none;}
+    .btn-accent:hover{filter:brightness(1.05)}
+    .btn-ghost{border:1px solid var(--accent); color:var(--fg)}
+    .btn-ghost:hover{background:var(--accent); color:#0a0a0a}
+
+    /* NAVBAR */
+    .navbar{--bs-navbar-padding-y:1rem; background:linear-gradient(180deg, rgba(10,10,10,.9), rgba(10,10,10,0));}
+    .brand-mark{font-weight:900; letter-spacing:.5px;}
+
+    /* HERO */
+    .hero{position:relative; min-height:100vh; display:grid; place-items:center; overflow:hidden;}
+    .hero::before{content:""; position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1512331160120-8e2a6c1d8f85?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat; filter:grayscale(.2) contrast(1.05) brightness(.8);} 
+    .hero::after{content:""; position:absolute; inset:0; background:radial-gradient(1200px 600px at 75% 40%, rgba(24,226,181,.18), transparent 60%), linear-gradient(180deg, rgba(10,10,11,.65), rgba(10,10,11,.25)); mix-blend:screen;}
+    .hero-inner{position:relative; z-index:1; width:100%;}
+    .kicker{font-size:.9rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted)}
+    .display-title{font-family:Montserrat, Poppins, sans-serif; font-weight:900; line-height:.95; letter-spacing:-.02em;}
+    .title-red{color:var(--accent-2); font-size:clamp(2.2rem,6vw,6.5rem)}
+    .title-outline{font-size:clamp(3rem,10vw,11rem); -webkit-text-stroke:2px rgba(255,255,255,.35); color:transparent; opacity:.9}
+    .hero-cta{margin-top:1.5rem}
+
+    /* SIDE SOCIALS */
+    .side-links{position:fixed; left:1rem; top:50%; transform:translateY(-50%); z-index:10;}
+    .side-links a{writing-mode:vertical-rl; text-orientation:mixed; display:block; font-size:.8rem; color:#cfcfcf; opacity:.8; margin:.3rem 0}
+    .side-links a:hover{color:var(--accent)}
+
+    /* SECTION UTILS */
+    section{padding:6rem 0}
+    .section-light{background:#fafafa; color:#0d0d0f}
+    .section-dark{background:#0e0f10}
+    .section-muted{background:#121316}
+    .kicker-line{display:inline-flex; align-items:center; gap:.75rem; color:var(--accent)}
+    .kicker-line::before{content:""; width:36px; height:2px; background:var(--accent)}
+
+    /* ABOUT */
+    .bg-word{font-family:Montserrat; font-weight:900; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.08); font-size:clamp(8rem,18vw,22rem); line-height:1; position:absolute; inset:auto auto -1rem 0; pointer-events:none;}
+
+    /* SERVICES */
+    .service{background:var(--card); border-radius:1.25rem; padding:2rem; height:100%; border:1px solid rgba(255,255,255,.06)}
+    .service h3{font-weight:800}
+    .dot{width:10px; height:10px; border-radius:50%; background:var(--accent)}
+
+    /* WORKS */
+    .work-card{position:relative; overflow:hidden; border-radius:1.25rem; border:1px solid rgba(255,255,255,.08)}
+    .work-card img{width:100%; height:100%; object-fit:cover; transition:transform .6s ease;}
+    .work-card:hover img{transform:scale(1.06)}
+    .work-title{position:absolute; left:1rem; bottom:1rem; font-weight:900; font-size:clamp(1.6rem,5vw,4rem); letter-spacing:-.02em}
+    .work-title .accent{color:var(--accent)}
+
+    /* CTA */
+    .cta{background:linear-gradient(0deg, #0f1113, #0f1113), var(--accent); position:relative; overflow:hidden;}
+    .cta .texture{position:absolute; inset:0; opacity:.08; background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop'); background-size:cover; mix-blend:overlay}
+
+    /* CLIENTS */
+    .client{background:#fff; color:#111; border-radius:.85rem; padding:1.35rem 1rem; display:grid; place-items:center; font-weight:800}
+
+    /* FOOTER */
+    footer{border-top:1px solid rgba(255,255,255,.08)}
+
+    /* SMOOTH SCROLL */
+    html{scroll-behavior:smooth}
   </style>
 </head>
-<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="80" tabindex="0">
+<body>
 
-  <!-- Navbar -->
-  <nav id="navbar" class="navbar navbar-expand-lg sticky-top bg-body-tertiary border-bottom">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#inicio"><span class="text-gradient">Marca</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+  <!-- Side social links -->
+  <div class="side-links d-none d-md-block">
+    <a href="#works">Behance</a>
+    <a href="#works">Dribbble</a>
+    <a href="#contact">Email</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-xxl">
+      <a class="navbar-brand brand-mark" href="#home">MS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navContent">
+      <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-          <li class="nav-item"><a class="nav-link" href="#portfolio">Portafolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#precios">Precios</a></li>
-          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">Sobre mí</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Servicios</a></li>
+          <li class="nav-item"><a class="nav-link" href="#works">Trabajos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
         </ul>
-        <div class="d-flex gap-2 ms-lg-3">
-          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Cambiar tema">🌙</button>
-          <a class="btn btn-primary btn-sm" href="#contacto">Empezar</a>
-        </div>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header id="inicio" class="hero section">
-    <div class="container">
-      <div class="row align-items-center g-4">
-        <div class="col-lg-6">
-          <h1 class="display-5 fw-bold lh-1 mb-3">Una plantilla <span class="text-gradient">rápida</span> para lanzar tu sitio</h1>
-          <p class="lead">Construida con Bootstrap 5.3, lista para landing page, negocio local o portafolio. Componentes reutilizables, modo oscuro y secciones esenciales.</p>
-          <div class="d-flex gap-2">
-            <a href="#servicios" class="btn btn-brand btn-lg">Ver funciones</a>
-            <a href="#contacto" class="btn btn-outline-primary btn-lg">Contáctanos</a>
-          </div>
-          <div class="d-flex align-items-center gap-3 mt-4">
-            <img src="https://picsum.photos/seed/a/64" alt="avatar" class="rounded-circle shadow" width="48" height="48">
-            <div class="small text-body-secondary">+100 clientes confían en nosotros</div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="ratio ratio-16x9 rounded-2xl shadow-soft overflow-hidden">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Demo" allowfullscreen></iframe>
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="hero-inner container-xxl">
+      <div class="row align-items-end" style="min-height:75vh">
+        <div class="col-lg-8 col-xl-7">
+          <div class="kicker">01 — Portafolio</div>
+          <h1 class="display-title title-red">Marco Sinche</h1>
+          <div class="display-title title-outline">Designer</div>
+          <p class="mt-3 text-white-50 col-lg-10">Identidades visuales, interfaces limpias y dirección de arte con una estética cinematográfica.</p>
+          <div class="hero-cta d-flex gap-3">
+            <a class="btn btn-accent btn-lg px-4" href="#works">Ver trabajos</a>
+            <a class="btn btn-ghost btn-lg px-4" href="#contact">Hablemos</a>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Features/Servicios -->
-  <section id="servicios" class="section">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Servicios y características</h2>
-        <p class="text-body-secondary">Todo lo que necesitas para un sitio moderno.</p>
-      </div>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="p-4 border rounded-2xl h-100 shadow-soft">
-            <div class="feature-icon bg-primary-subtle text-primary rounded-3 mb-3">
-              <i class="bi bi-lightning-charge fs-4"></i>
-            </div>
-            <h5>Rápido y responsivo</h5>
-            <p class="mb-0">Diseño mobile-first, optimizado para desempeño y SEO básico.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="p-4 border rounded-2xl h-100 shadow-soft">
-            <div class="feature-icon bg-success-subtle text-success rounded-3 mb-3">
-              <i class="bi bi-brush fs-4"></i>
-            </div>
-            <h5>Personalizable</h5>
-            <p class="mb-0">Cambia colores, tipografías y componentes con utilidades Bootstrap.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="p-4 border rounded-2xl h-100 shadow-soft">
-            <div class="feature-icon bg-warning-subtle text-warning rounded-3 mb-3">
-              <i class="bi bi-shield-check fs-4"></i>
-            </div>
-            <h5>Buenas prácticas</h5>
-            <p class="mb-0">Estructura semántica, accesible y preparada para producción.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Portafolio / Galería -->
-  <section id="portfolio" class="section portfolio bg-body-secondary-subtle">
-    <div class="container">
-      <div class="d-flex align-items-end justify-content-between mb-4">
-        <div>
-          <h2 class="fw-bold">Portafolio</h2>
-          <p class="text-body-secondary mb-0">Muestra tus mejores proyectos.</p>
-        </div>
-        <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filtrosCanvas"><i class="bi bi-sliders"></i> Filtros</button>
-      </div>
-      <div class="row g-4">
-        <!-- 6 items de ejemplo -->
-        <div class="col-md-6 col-lg-4">
-          <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#modalProyecto1">
-            <div class="card shadow-soft h-100">
-              <img src="https://picsum.photos/seed/p1/600/400" class="card-img-top" alt="Proyecto 1">
-              <div class="card-body">
-                <h6 class="card-title mb-1">Proyecto 1</h6>
-                <p class="card-text small text-body-secondary">Branding & Web</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-soft h-100">
-            <img src="https://picsum.photos/seed/p2/600/400" class="card-img-top" alt="Proyecto 2">
-            <div class="card-body">
-              <h6 class="card-title mb-1">Proyecto 2</h6>
-              <p class="card-text small text-body-secondary">Fotografía</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-soft h-100">
-            <img src="https://picsum.photos/seed/p3/600/400" class="card-img-top" alt="Proyecto 3">
-            <div class="card-body">
-              <h6 class="card-title mb-1">Proyecto 3</h6>
-              <p class="card-text small text-body-secondary">Desarrollo</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-soft h-100">
-            <img src="https://picsum.photos/seed/p4/600/400" class="card-img-top" alt="Proyecto 4">
-            <div class="card-body">
-              <h6 class="card-title mb-1">Proyecto 4</h6>
-              <p class="card-text small text-body-secondary">UI/UX</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-soft h-100">
-            <img src="https://picsum.photos/seed/p5/600/400" class="card-img-top" alt="Proyecto 5">
-            <div class="card-body">
-              <h6 class="card-title mb-1">Proyecto 5</h6>
-              <p class="card-text small text-body-secondary">Edición de video</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-soft h-100">
-            <img src="https://picsum.photos/seed/p6/600/400" class="card-img-top" alt="Proyecto 6">
-            <div class="card-body">
-              <h6 class="card-title mb-1">Proyecto 6</h6>
-              <p class="card-text small text-body-secondary">Ilustración</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Precios -->
-  <section id="precios" class="section">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Planes y precios</h2>
-        <p class="text-body-secondary">Transparencia total. Elige el plan que se ajuste a ti.</p>
-      </div>
-      <div class="row g-4 align-items-stretch">
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-soft border rounded-2xl">
-            <div class="card-body p-4">
-              <h5 class="card-title">Básico</h5>
-              <p class="display-6 fw-bold">$0 <span class="fs-6 fw-normal text-body-secondary">/mes</span></p>
-              <ul class="list-unstyled small">
-                <li>✓ Landing de una página</li>
-                <li>✓ Soporte por email</li>
-                <li>— Integraciones limitadas</li>
-              </ul>
-              <a href="#contacto" class="btn btn-outline-primary w-100">Elegir</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-soft border rounded-2xl position-relative">
-            <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill text-bg-warning">Popular</span>
-            <div class="card-body p-4">
-              <h5 class="card-title">Pro</h5>
-              <p class="display-6 fw-bold">$19 <span class="fs-6 fw-normal text-body-secondary">/mes</span></p>
-              <ul class="list-unstyled small">
-                <li>✓ Todo del Básico</li>
-                <li>✓ Portafolio y blog</li>
-                <li>✓ Formulario de contacto</li>
-              </ul>
-              <a href="#contacto" class="btn btn-primary w-100">Elegir</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12 col-lg-4">
-          <div class="card h-100 shadow-soft border rounded-2xl">
-            <div class="card-body p-4">
-              <h5 class="card-title">Empresas</h5>
-              <p class="display-6 fw-bold">$59 <span class="fs-6 fw-normal text-body-secondary">/mes</span></p>
-              <ul class="list-unstyled small">
-                <li>✓ Integraciones avanzadas</li>
-                <li>✓ Prioridad en soporte</li>
-                <li>✓ Páginas personalizadas</li>
-              </ul>
-              <a href="#contacto" class="btn btn-outline-primary w-100">Hablar con ventas</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="section bg-body-secondary-subtle">
-    <div class="container">
+  <!-- ABOUT -->
+  <section id="about" class="position-relative section-dark">
+    <div class="container-xxl position-relative">
       <div class="row g-5 align-items-center">
-        <div class="col-lg-5">
-          <h2 class="fw-bold">Preguntas frecuentes</h2>
-          <p class="text-body-secondary">Aclara dudas comunes de tus clientes.</p>
-        </div>
         <div class="col-lg-7">
-          <div class="accordion" id="faqAcc">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="q1h"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true" aria-controls="q1">¿Cómo personalizo los colores?</button></h2>
-              <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc">
-                <div class="accordion-body">Edita las variables en <code>:root</code> dentro del bloque <code>&lt;style&gt;</code> o utiliza utilidades de Bootstrap.</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="q2h"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">¿Soporta modo oscuro?</button></h2>
-              <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-                <div class="accordion-body">Sí. Usa el botón del navbar para alternar <code>data-bs-theme</code> entre <em>light</em> y <em>dark</em>.</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="q3h"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3" aria-expanded="false" aria-controls="q3">¿Puedo agregar más secciones?</button></h2>
-              <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-                <div class="accordion-body">Claro. Duplica un bloque <code>.section</code> y ajusta el contenido. Mantén enlaces del navbar actualizados.</div>
-              </div>
-            </div>
+          <span class="kicker-line">SMOOTH INTERFACE INTERACTION</span>
+          <h2 class="mt-3" style="font-family:Montserrat;font-weight:900; font-size:clamp(2rem,4vw,3.2rem)">Wireframe-first, user-friendly design</h2>
+          <p class="text-white-50 col-xl-10">Trabajo el diseño desde la claridad: estructura, tipografía y ritmo visual antes del color. Combino <strong>branding</strong>, <strong>UI</strong> y <strong>fotografía</strong> para crear experiencias memorables y funcionales.</p>
+          <a class="link-light" href="#services">Leer más →</a>
+        </div>
+        <div class="col-lg-5">
+          <div class="ratio ratio-1x1 rounded-4 overflow-hidden border" style="border-color:rgba(255,255,255,.1)!important">
+            <img src="https://images.unsplash.com/photo-1520975930469-34e3836e5540?q=80&w=1200&auto=format&fit=crop" alt="Retrato creativo" class="w-100 h-100 object-fit-cover">
+          </div>
+        </div>
+      </div>
+      <div class="bg-word">Digital</div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section-muted">
+    <div class="container-xxl">
+      <div class="row mb-4">
+        <div class="col-12 d-flex align-items-center gap-3">
+          <span class="dot"></span>
+          <span class="kicker">02 — Servicios</span>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="service h-100">
+            <h3>Branding</h3>
+            <p class="text-secondary">Identidades visuales con sistemas tipográficos y cromáticos consistentes.</p>
+            <ul class="text-secondary small mb-0">
+              <li>Logo &amp; sistema</li>
+              <li>Guía de estilos</li>
+              <li>Aplicaciones impresas</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="service h-100">
+            <h3>UI / Web</h3>
+            <p class="text-secondary">Interfaces limpias y responsivas en Bootstrap 5 / Django.</p>
+            <ul class="text-secondary small mb-0">
+              <li>Wireframes &amp; prototipos</li>
+              <li>Landing pages</li>
+              <li>Diseño de componentes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="service h-100">
+            <h3>Foto &amp; Video</h3>
+            <p class="text-secondary">Dirección de arte con estética cinematográfica para marcas y productos.</p>
+            <ul class="text-secondary small mb-0">
+              <li>Fotografía de producto</li>
+              <li>Color grading básico</li>
+              <li>Clips para redes</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contacto -->
-  <section id="contacto" class="section">
-    <div class="container">
-      <div class="row g-5">
+  <!-- WORKS -->
+  <section id="works" class="section-light">
+    <div class="container-xxl">
+      <div class="row align-items-end mb-4">
+        <div class="col-md-7">
+          <span class="kicker" style="color:#666">03 — Selected works</span>
+          <h2 class="mt-2" style="font-family:Montserrat;font-weight:900; color:#0d0d0f; font-size:clamp(2rem,4vw,3rem)">Our selected works and showcases</h2>
+        </div>
+        <div class="col-md-5 text-md-end"><a class="btn btn-dark btn-lg" href="#contact">Solicitar presupuesto</a></div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <article class="work-card ratio ratio-4x3">
+            <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop" alt="Proyecto 1">
+            <div class="work-title"><span class="accent">Female</span> Purples</div>
+          </article>
+        </div>
+        <div class="col-md-6">
+          <article class="work-card ratio ratio-4x3">
+            <img src="https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?q=80&w=1200&auto=format&fit=crop" alt="Proyecto 2">
+            <div class="work-title"><span class="accent">Redness</span> Socks</div>
+          </article>
+        </div>
+        <div class="col-md-6">
+          <article class="work-card ratio ratio-4x3">
+            <img src="https://images.unsplash.com/photo-1520975661595-645b2f79f187?q=80&w=1200&auto=format&fit=crop" alt="Proyecto 3">
+            <div class="work-title"><span class="accent">Hairling</span> Glass</div>
+          </article>
+        </div>
+        <div class="col-md-6">
+          <article class="work-card ratio ratio-4x3">
+            <img src="https://images.unsplash.com/photo-1520975940462-7c6b2b7c3c6f?q=80&w=1200&auto=format&fit=crop" alt="Proyecto 4">
+            <div class="work-title"><span class="accent">Minimal</span> Poster</div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIPE -->
+  <section class="cta py-5">
+    <div class="texture"></div>
+    <div class="container-xxl position-relative">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h2 class="mb-1" style="font-family:Montserrat; font-weight:900; color:var(--accent)">So that's me. There's no other way to put it.</h2>
+          <p class="text-white-50 mb-0">¿Tienes un proyecto o buscas soluciones creativas? Hablemos.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <a class="btn btn-accent btn-lg" href="#contact">Get started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="section-light">
+    <div class="container-xxl">
+      <div class="row mb-4">
+        <div class="col-12">
+          <span class="kicker" style="color:#666">04 — Our clients</span>
+          <h2 class="mt-2" style="font-family:Montserrat;font-weight:900; color:#0d0d0f; font-size:clamp(2rem,4vw,3rem)">Marcas que confían</h2>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">A</div></div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">D</div></div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">Fuel</div></div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">Deep</div></div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">Mono</div></div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2"><div class="client">X</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section-dark">
+    <div class="container-xxl">
+      <div class="row">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h2 style="font-family:Montserrat; font-weight:900; font-size:clamp(2rem,4vw,3rem)">Construyamos algo flexible para tu marca</h2>
+          <p class="text-white-50">Hudson, WI — USA · Disponible remoto</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="mailto:hola@marcosinche.com" class="link-light">hola@marcosinche.com</a>
+            <span class="text-white-50">+1 (000) 000‑0000</span>
+          </div>
+          <div class="mt-4 d-flex gap-3">
+            <a class="btn btn-ghost" href="#">Behance</a>
+            <a class="btn btn-ghost" href="#">Dribbble</a>
+            <a class="btn btn-ghost" href="#">Instagram</a>
+          </div>
+        </div>
         <div class="col-lg-6">
-          <h2 class="fw-bold">Hablemos de tu proyecto</h2>
-          <p class="text-body-secondary">Completa el formulario y te contactaremos en 24–48h.</p>
-          <form class="needs-validation" novalidate>
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" required>
-                <div class="invalid-feedback">Ingresa tu nombre.</div>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" required>
-                <div class="invalid-feedback">Email válido requerido.</div>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Mensaje</label>
-                <textarea class="form-control" rows="4" required></textarea>
-                <div class="invalid-feedback">Cuéntanos sobre tu proyecto.</div>
-              </div>
-              <div class="col-12 d-grid d-sm-flex gap-2">
-                <button class="btn btn-primary" type="submit">Enviar</button>
-                <button class="btn btn-outline-secondary" type="reset">Limpiar</button>
-              </div>
+          <form class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control form-control-lg" placeholder="Tu nombre">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control form-control-lg" placeholder="tucorreo@mail.com">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Proyecto</label>
+              <textarea class="form-control form-control-lg" rows="4" placeholder="Cuéntame sobre tu proyecto…"></textarea>
+            </div>
+            <div class="col-12">
+              <button type="button" class="btn btn-accent btn-lg">Enviar (demo)</button>
             </div>
           </form>
         </div>
-        <div class="col-lg-6">
-          <div class="p-4 border rounded-2xl shadow-soft h-100">
-            <h5 class="mb-3">Información</h5>
-            <ul class="list-unstyled small">
-              <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Hudson, WI, EE. UU.</li>
-              <li class="mb-2"><i class="bi bi-envelope me-2"></i> hola@tu-dominio.com</li>
-              <li class="mb-2"><i class="bi bi-telephone me-2"></i> +1 (555) 123-4567</li>
-            </ul>
-            <div class="ratio ratio-16x9 rounded-2xl overflow-hidden">
-              <iframe src="https://maps.google.com/maps?q=hudson%20wi&t=&z=12&ie=UTF8&iwloc=&output=embed" title="Mapa"></iframe>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="border-top py-4">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-      <div class="small">© <span id="year"></span> Tu Marca. Todos los derechos reservados.</div>
-      <ul class="nav small">
-        <li class="nav-item"><a href="#" class="nav-link px-2">Privacidad</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2">Términos</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2">Soporte</a></li>
-      </ul>
+  <footer class="py-4 section-muted">
+    <div class="container-xxl d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>© <span id="year"></span> Marco Sinche — All rights reserved.</div>
+      <div class="text-white-50">Hecho con Bootstrap 5 · Inspirado en Brabus Theme</div>
     </div>
   </footer>
 
-  <!-- Back to top button -->
-  <button id="backTop" class="btn btn-primary btn-back-to-top"><i class="bi bi-arrow-up"></i></button>
-
-  <!-- Offcanvas Filtros -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="filtrosCanvas" aria-labelledby="filtrosCanvasLabel">
-    <div class="offcanvas-header">
-      <h5 id="filtrosCanvasLabel">Filtros</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <p class="text-body-secondary">(Demo) Aquí puedes colocar filtros de categorías/etiquetas.</p>
-      <div class="d-grid gap-2">
-        <button class="btn btn-outline-secondary">Todo</button>
-        <button class="btn btn-outline-secondary">Diseño</button>
-        <button class="btn btn-outline-secondary">Foto</button>
-        <button class="btn btn-outline-secondary">Web</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Proyecto 1 -->
-  <div class="modal fade" id="modalProyecto1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Proyecto 1</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <img src="https://picsum.photos/seed/p1/1200/700" class="img-fluid rounded-2xl mb-3" alt="Proyecto 1 grande">
-          <p>Descripción detallada del proyecto, resultados y tecnologías usadas.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <script>
-    // Año dinámico
+    // año
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Validación de formulario
-    (() => {
-      const forms = document.querySelectorAll('.needs-validation');
-      Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    })();
-
-    // Botón back-to-top
-    const backTop = document.getElementById('backTop');
-    window.addEventListener('scroll', () => {
-      backTop.style.display = window.scrollY > 300 ? 'inline-flex' : 'none';
-    });
-    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    // Toggle tema claro/oscuro (Bootstrap 5.3 data-bs-theme)
-    const themeBtn = document.getElementById('themeToggle');
-    const root = document.documentElement;
-    function setTheme(t){
-      document.documentElement.setAttribute('data-bs-theme', t);
-      localStorage.setItem('theme', t);
-      themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
-    }
-    setTheme(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-    themeBtn.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-bs-theme');
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
   </script>
 </body>
 </html>
